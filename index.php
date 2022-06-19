@@ -13,18 +13,32 @@ $bot->toChat('1005024016')
 //            Msg::Row(
 //                Msg::dataBtn('Last', 'hi')
 //            )
-//        ),
-//        Msg::Keyboard(
-//            Msg::Row(
-//                Msg::Key('Приветь'), Msg::Key('Приветь2')
-//            )
-//        ),
-        Msg::getContact()
+//        )
+        Msg::Keyboard(
+            Msg::Row(
+                Msg::Key('Приветь'), Msg::Key('Приветь2')
+            )
+        )
+//        Msg::getContact()
     )
     ->Send();
 
-//$bot->
+$bot->getUpdate(
+    function ($text) use ($bot) {
+        switch ($text) {
+            case '/start':
+                $bot->Message('И тебе привет, отправь номер')
+                    ->replyMarkup(
+                        Msg::getContact()
+                    )
+                    ->Send();
+                break;
+        }
+    },
+    function ($data) use ($bot) {
 
+    }
+);
 
 
 exit();

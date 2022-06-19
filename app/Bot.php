@@ -63,6 +63,27 @@ class Bot
     }
 
     //Получение
+    public function getUpdate($text, $callback_data, $else = null)
+    {
+        if ($this->update !== null) {
+            self::log('getUpdate()', print_r($this->update));
+            if ($this->update['message']['text']){
+                $this->chatId = $this->update['message']['from']['id'];
+                $text($this->update['message']['text']);
+            }
+            elseif ($this->update['callback_query']['data']){
+                $this->chatId = $this->update['callback_query']['from']['id'];
+                $callback_data($this->update['callback_query']['data']);
+            }
+            //TODO номер телефона
+            $this->chatId = null;
+        } else {
+            if ($else !== null)
+                $else();
+            self::log('getUpdate()', 'Nothing from webhooks');
+        }
+    }
+
     public function getMessage()
     {
 
