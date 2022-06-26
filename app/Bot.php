@@ -9,6 +9,7 @@ class Bot
     protected $sendHead = null;
     protected $method = null;
     protected $replyMarkup = null;
+    protected $logging = false;
 
     public function __construct($token)
     {
@@ -66,12 +67,11 @@ class Bot
     public function getUpdate($text, $callback_data, $else = null)
     {
         if ($this->update !== null) {
-            self::log('getUpdate()', print_r($this->update));
-            if ($this->update['message']['text']){
+            self::log('getUpdate()', print_r($this->update, 1));
+            if ($this->update['message']['text']) {
                 $this->chatId = $this->update['message']['from']['id'];
                 $text($this->update['message']['text']);
-            }
-            elseif ($this->update['callback_query']['data']){
+            } elseif ($this->update['callback_query']['data']) {
                 $this->chatId = $this->update['callback_query']['from']['id'];
                 $callback_data($this->update['callback_query']['data']);
             }
@@ -89,14 +89,27 @@ class Bot
 
     }
 
-
-    private static function log($type, $text)
+    public function startLog($fileName = null)
     {
-        if (is_array($text)) {
-            $text = print_r($text, 1);
+        $f = $fileName === null ? '.log' : $fileName;
+        $this->logging = true;
+        $this->logfile = fopen($f, 'a+');
+
+    }
+
+    private function log($type, $text)
+    {
+        if ($this->logging) {
+            if (is_array($text)) {
+                $text = print_r($text, 1);
+            }
+            fputs($this->logfile, date('Y-m-d H:i:s') . " | {$type} | {$text}" . "\n");
         }
-        $f = fopen('.log', 'a+');
-        fputs($f, date('Y-m-d H:i:s') . " | {$type} | {$text}" . "\n");
-        fclose($f);
+    }
+
+    public function endLog()
+    {
+        fputs($this->logfile, "--------------------------------------------------------------\n");
+        fclose($this->logfile);
     }
 }

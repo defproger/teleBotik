@@ -2,26 +2,28 @@
 include_once "error_log.php";
 require_once "app/inc.php";
 
+
 $bot = new Bot('5559490398:AAEqGo_5HPI5DiHyRZYCrHONP6fxRanYsK4');
-$bot->toChat('1005024016')
-    ->Message('Hello')
-    ->replyMarkup(
-//        Msg::Inline(
+$bot->startLog();
+//$bot->toChat('1005024016')
+//    ->Message('Hello')
+//    ->replyMarkup(
+////        Msg::Inline(
+////            Msg::Row(
+////                Msg::dataBtn('Hello', 'hellobtn'), Msg::dataBtn('fuckOff', 'fuckOff')
+////            ),
+////            Msg::Row(
+////                Msg::dataBtn('Last', 'hi')
+////            )
+////        )
+//        Msg::Keyboard(
 //            Msg::Row(
-//                Msg::dataBtn('Hello', 'hellobtn'), Msg::dataBtn('fuckOff', 'fuckOff')
-//            ),
-//            Msg::Row(
-//                Msg::dataBtn('Last', 'hi')
+//                Msg::Key('Приветь'), Msg::Key('Приветь2')
 //            )
 //        )
-        Msg::Keyboard(
-            Msg::Row(
-                Msg::Key('Приветь'), Msg::Key('Приветь2')
-            )
-        )
-//        Msg::getContact()
-    )
-    ->Send();
+////        Msg::getContact()
+//    )
+//    ->Send();
 
 $bot->getUpdate(
     function ($text) use ($bot) {
@@ -40,6 +42,7 @@ $bot->getUpdate(
     }
 );
 
+$bot->endLog();
 
 exit();
 //$command = [
