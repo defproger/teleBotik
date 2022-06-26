@@ -5,6 +5,7 @@ require_once "app/inc.php";
 
 $bot = new Bot('5559490398:AAEqGo_5HPI5DiHyRZYCrHONP6fxRanYsK4');
 $bot->startLog();
+
 //$bot->toChat('1005024016')
 //    ->Message('Hello')
 //    ->replyMarkup(
